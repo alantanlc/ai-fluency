@@ -36,8 +36,13 @@ class LinearSupportVectorMachine:
         c = y - self.weight * x
         return 0 if c < self.bias else 1
 
-    def eval(self) -> float:
-        pass
+    def eval(self, data: list) -> float:
+        correct = 0
+        for x, y, actual in data:
+            if self.test(x, y) == actual:
+                correct += 1
+        accuracy = correct / len(data)
+        return accuracy
 
 if __name__ == '__main__':
     # train
@@ -51,4 +56,16 @@ if __name__ == '__main__':
     print(f'{model.test(-1,-1)=}')
     print(f'{model.test(0.5,0.5)=}')
     print(f'{model.test(0.49,0.49)=}')
+
+    # eval: accuracy 1.0
+    actuals = [(0.5,0.5,1)]
+    print(f'{model.eval(actuals)=}')
+
+    # eval: accuracy 0.0
+    actuals = [(0.5,0.5,0)]
+    print(f'{model.eval(actuals)=}')
+
+    # eval: accuracy 0.5
+    actuals = [(0.5,0.5,1),(0.5,0.5,0)]
+    print(f'{model.eval(actuals)=}')
 
